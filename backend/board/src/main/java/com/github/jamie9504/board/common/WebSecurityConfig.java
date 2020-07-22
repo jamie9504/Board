@@ -1,4 +1,4 @@
-package com.github.jamie9504.board.web;
+package com.github.jamie9504.board.common;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

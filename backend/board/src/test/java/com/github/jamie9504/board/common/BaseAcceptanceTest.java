@@ -1,4 +1,4 @@
-package com.github.jamie9504.board.acceptance;
+package com.github.jamie9504.board.common;
 
 import io.restassured.RestAssured;
 import java.util.List;

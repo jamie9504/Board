@@ -1,9 +1,5 @@
-package com.github.jamie9504.board.service;
+package com.github.jamie9504.board.role;
 
-import com.github.jamie9504.board.entity.Role;
-import com.github.jamie9504.board.entity.RoleRepository;
-import com.github.jamie9504.board.web.dto.RoleRequest;
-import com.github.jamie9504.board.web.dto.RoleResponse;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

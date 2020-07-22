@@ -1,4 +1,4 @@
-package com.github.jamie9504.board.entity;
+package com.github.jamie9504.board.common;
 
 import java.time.LocalDateTime;
 import javax.persistence.GeneratedValue;

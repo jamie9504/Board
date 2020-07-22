@@ -1,6 +1,5 @@
-package com.github.jamie9504.board.web.dto;
+package com.github.jamie9504.board.role;
 
-import com.github.jamie9504.board.entity.Role;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

@@ -1,8 +1,5 @@
-package com.github.jamie9504.board.web;
+package com.github.jamie9504.board.role;
 
-import com.github.jamie9504.board.service.RoleService;
-import com.github.jamie9504.board.web.dto.RoleRequest;
-import com.github.jamie9504.board.web.dto.RoleResponse;
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.HttpStatus;

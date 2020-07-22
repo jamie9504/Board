@@ -1,8 +1,8 @@
-package com.github.jamie9504.board.acceptance;
+package com.github.jamie9504.board.role;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.github.jamie9504.board.web.dto.RoleResponse;
+import com.github.jamie9504.board.common.BaseAcceptanceTest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

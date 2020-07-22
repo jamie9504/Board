@@ -1,6 +1,4 @@
-package com.github.jamie9504.board.web.dto;
-
-import com.github.jamie9504.board.entity.Role;
+package com.github.jamie9504.board.role;
 
 public class RoleRequest {
 

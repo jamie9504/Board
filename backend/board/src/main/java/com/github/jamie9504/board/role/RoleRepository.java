@@ -1,4 +1,4 @@
-package com.github.jamie9504.board.entity;
+package com.github.jamie9504.board.role;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

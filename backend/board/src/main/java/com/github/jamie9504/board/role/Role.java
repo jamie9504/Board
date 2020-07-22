@@ -1,5 +1,6 @@
-package com.github.jamie9504.board.entity;
+package com.github.jamie9504.board.role;
 
+import com.github.jamie9504.board.common.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 

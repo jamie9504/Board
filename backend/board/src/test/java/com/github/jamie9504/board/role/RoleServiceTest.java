@@ -1,10 +1,8 @@
-package com.github.jamie9504.board.service;
+package com.github.jamie9504.board.role;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.github.jamie9504.board.web.dto.RoleRequest;
-import com.github.jamie9504.board.web.dto.RoleResponse;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

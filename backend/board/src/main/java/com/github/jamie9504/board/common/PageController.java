@@ -1,4 +1,4 @@
-package com.github.jamie9504.board.web;
+package com.github.jamie9504.board.common;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
