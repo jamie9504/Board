@@ -26,4 +26,12 @@ public class RoleRequest {
     public String getExplanation() {
         return explanation;
     }
+
+    @Override
+    public String toString() {
+        return "RoleRequest{" +
+            "name='" + name + '\'' +
+            ", explanation='" + explanation + '\'' +
+            '}';
+    }
 }

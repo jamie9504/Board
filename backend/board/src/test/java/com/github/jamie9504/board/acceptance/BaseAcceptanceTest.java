@@ -46,8 +46,7 @@ public abstract class BaseAcceptanceTest {
             .log().all()
             .statusCode(HttpStatus.OK.value())
             .extract()
-            .jsonPath()
-            .get();
+            .as(response);
     }
 
     protected <T> List<T> findAll(String location, Class<T> response) {
@@ -62,6 +61,18 @@ public abstract class BaseAcceptanceTest {
             .extract()
             .jsonPath()
             .getList(".", response);
+    }
+
+    protected void update(Map<String, String> params, String url) {
+        RestAssured.given()
+            .log().all()
+            .body(params)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .put(url)
+            .then()
+            .log().all()
+            .statusCode(HttpStatus.OK.value());
     }
 
     protected void delete(String location) {

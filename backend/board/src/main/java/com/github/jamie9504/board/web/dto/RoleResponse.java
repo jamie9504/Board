@@ -11,6 +11,9 @@ public class RoleResponse {
     private String name;
     private String explanation;
 
+    private RoleResponse() {
+    }
+
     public RoleResponse(Long id, String name, String explanation) {
         this.id = id;
         this.name = name;

@@ -6,6 +6,7 @@ import com.github.jamie9504.board.web.dto.RoleRequest;
 import com.github.jamie9504.board.web.dto.RoleResponse;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RoleService {
@@ -31,17 +32,20 @@ public class RoleService {
             .orElseThrow(() -> new IllegalArgumentException("해당하는 ID가 없습니다."));
     }
 
+    @Transactional
     public RoleResponse createRole(RoleRequest roleRequest) {
         Role role = roleRequest.toRole();
         Role createdRole = roleRepository.save(role);
         return RoleResponse.of(createdRole);
     }
 
+    @Transactional
     public void updateRole(Long id, RoleRequest roleRequest) {
         Role role = findRoleById(id);
         role.update(roleRequest.toRole());
     }
 
+    @Transactional
     public void deleteRole(Long id) {
         Role role = findRoleById(id);
         roleRepository.delete(role);
