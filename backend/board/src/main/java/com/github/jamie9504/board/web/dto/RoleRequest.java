@@ -15,11 +15,15 @@ public class RoleRequest {
         this.explanation = explanation;
     }
 
+    public Role toRole() {
+        return new Role(name, explanation);
+    }
+
     public String getName() {
         return name;
     }
 
-    public Role toRole() {
-        return new Role(name, explanation);
+    public String getExplanation() {
+        return explanation;
     }
 }
