@@ -11,11 +11,11 @@
                 <i class="fa fa-user"></i> Please Login
             </div>
             <div class="card-block" style="padding: 24px;">
-                <form method="post" name="f" th:action="@{/login}">
+                <form method="post" name="f" th:action="@{/signin}">
                     <fieldset>
                         <!-- Thymeleaf + Spring Security error display -->
                         <div class="alert alert-danger" th:if="${param.error}">
-                            Invalid username and password.
+                            Invalid email and password.
                         </div>
 
                         <div class="alert alert-success" th:if="${param.logout}">
@@ -24,10 +24,9 @@
 
                         <!-- Login Controls -->
                         <div class="form-group">
-                            <label for="username">Username</label>
-                            <input class="form-control" id="username" name="username"
-                                   placeholder="Username"
-                                   type="text">
+                            <label for="email">email</label>
+                            <input class="form-control" id="email" name="email"
+                                   placeholder="Username" type="text">
                         </div>
 
                         <div class="form-group">
@@ -38,9 +37,10 @@
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" id="remember-me" name="remember-me"
-                                   type="checkbox">
-                            <label class="form-check-label" for="remember-me">Remember me?</label>
+                            <input class="form-check-input" id="checkedRememberMe"
+                                   name="checkedRememberMe" type="checkbox">
+                            <label class="form-check-label" for="checkedRememberMe">Remember me?
+                            </label>
                         </div>
 
                         <!-- Login Button -->

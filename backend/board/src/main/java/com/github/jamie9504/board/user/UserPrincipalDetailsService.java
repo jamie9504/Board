@@ -14,9 +14,9 @@ public class UserPrincipalDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = this.userRepository.findByEmail(username)
-            .orElseThrow(() -> new NonexistentUser(username + "에 해당하는 유저가 없습니다."));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = this.userRepository.findByEmail(email)
+            .orElseThrow(() -> new NonexistentUser(email + "에 해당하는 유저가 없습니다."));
 
         return new UserPrincipal(user);
     }
