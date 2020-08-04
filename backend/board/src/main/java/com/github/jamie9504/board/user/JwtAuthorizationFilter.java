@@ -8,12 +8,14 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+@Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private UserRepository userRepository;
@@ -28,6 +30,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain chain) throws IOException, ServletException {
+        log.trace(">>>>>>>>>> JwtAuthorizationFilter.doFilterInternal >>>>>>>>>>");
         // Read the Authorization header, where the JWT Token should be
         String authorizationHeader = request.getHeader(JwtProperties.HEADER_STRING);
 
@@ -36,6 +39,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             || !authorizationHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
             // rest of the spring pipeline
             chain.doFilter(request, response);
+            log.trace(
+                "<<<<<<<<<< JwtAuthorizationFilter.doFilterInternal.checkingHeader <<<<<<<<<<");
             return;
         }
 
@@ -45,6 +50,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         // Continue filter execution
         chain.doFilter(request, response);
+        log.trace("<<<<<<<<<< JwtAuthorizationFilter.doFilterInternal <<<<<<<<<<");
     }
 
     private Authentication getEmailPasswordAuthentication(String authorizationHeader) {
@@ -64,8 +70,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         User user = userRepository.findByEmail(email)
             .orElseThrow(() -> new NonexistentUser(email + "에 해당하는 유저가 없습니다."));
         UserPrincipal principal = new UserPrincipal(user);
-        UsernamePasswordAuthenticationToken auth
-            = new UsernamePasswordAuthenticationToken(email, null, principal.getAuthorities());
-        return auth;
+        return new UsernamePasswordAuthenticationToken(email, null, principal.getAuthorities());
     }
 }
