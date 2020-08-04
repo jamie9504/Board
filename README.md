@@ -1,3 +1,3 @@
 # Board
 
-게시판 
+Jamie 게시판
