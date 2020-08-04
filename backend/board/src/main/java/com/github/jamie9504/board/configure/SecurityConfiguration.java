@@ -26,6 +26,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .password(passwordEncoder().encode("admin"))
             .roles("ADMIN")
             .and()
+            .withUser("manager")
+            .password(passwordEncoder().encode("manager"))
+            .roles("MANAGER")
+            .and()
             .withUser("user")
             .password(passwordEncoder().encode("user"))
             .roles("USER");
@@ -33,14 +37,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        // static 디렉터리의 하위 파일 목록은 인증 무시 ( = 항상통과 )
         web.ignoring().antMatchers("/css/**", "/script/**", "image/**", "/fonts/**", "lib/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .anyRequest().authenticated()
+            .antMatchers("/index.html").permitAll()
+            .antMatchers("/profile/**").authenticated()
+            .antMatchers("/admin/**").hasRole("ADMIN")
+            .antMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER")
             .and()
             .httpBasic();
     }
