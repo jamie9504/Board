@@ -1,7 +1,9 @@
-package com.github.jamie9504.board.configure;
+package com.github.jamie9504.board.common.configure;
 
+import com.github.jamie9504.board.user.UserPrincipalDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -10,31 +12,29 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private final UserPrincipalDetailsService userPrincipalDetailsService;
 
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(this.userPrincipalDetailsService);
+
+        return daoAuthenticationProvider;
+    }
+
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-            .withUser("admin")
-            .password(passwordEncoder().encode("admin"))
-            .roles("ADMIN")
-            .authorities("ACCESS1", "ACCESS2")
-            .and()
-            .withUser("manager")
-            .password(passwordEncoder().encode("manager"))
-            .roles("MANAGER")
-            .authorities("ACCESS1")
-            .and()
-            .withUser("user")
-            .password(passwordEncoder().encode("user"))
-            .roles("USER");
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(authenticationProvider());
     }
 
     @Override
@@ -51,6 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER")
             .antMatchers("/api/public/test1").hasAuthority("ACCESS1")
             .antMatchers("/api/public/test2").hasAuthority("ACCESS2")
+            .antMatchers("/api/public/users").hasRole("ADMIN")
             .and()
             .httpBasic();
     }
