@@ -1,8 +1,10 @@
-package com.github.jamie9504.board.user;
+package com.github.jamie9504.board.user.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.jamie9504.board.user.model.UserPrincipal;
+import com.github.jamie9504.board.user.payload.LoginRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;

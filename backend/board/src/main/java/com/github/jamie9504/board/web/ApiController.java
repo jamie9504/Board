@@ -1,7 +1,7 @@
 package com.github.jamie9504.board.web;
 
-import com.github.jamie9504.board.user.User;
-import com.github.jamie9504.board.user.UserRepository;
+import com.github.jamie9504.board.user.model.User;
+import com.github.jamie9504.board.user.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

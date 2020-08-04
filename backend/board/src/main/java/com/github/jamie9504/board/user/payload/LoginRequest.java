@@ -1,11 +1,14 @@
-package com.github.jamie9504.board.user;
+package com.github.jamie9504.board.user.payload;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @Getter
 @EqualsAndHashCode
 @ToString

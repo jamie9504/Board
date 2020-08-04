@@ -1,8 +1,11 @@
-package com.github.jamie9504.board.user;
+package com.github.jamie9504.board.user.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.github.jamie9504.board.common.exception.NonexistentUser;
+import com.github.jamie9504.board.user.exception.NonexistentUser;
+import com.github.jamie9504.board.user.model.User;
+import com.github.jamie9504.board.user.model.UserPrincipal;
+import com.github.jamie9504.board.user.repository.UserRepository;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

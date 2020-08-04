@@ -1,4 +1,4 @@
-package com.github.jamie9504.board.user;
+package com.github.jamie9504.board.user.jwt;
 
 public class JwtProperties {
 

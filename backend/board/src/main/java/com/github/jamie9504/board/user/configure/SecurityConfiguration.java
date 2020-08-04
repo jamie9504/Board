@@ -1,9 +1,9 @@
-package com.github.jamie9504.board.common.configure;
+package com.github.jamie9504.board.user.configure;
 
-import com.github.jamie9504.board.user.JwtAuthenticationFilter;
-import com.github.jamie9504.board.user.JwtAuthorizationFilter;
-import com.github.jamie9504.board.user.UserPrincipalDetailsService;
-import com.github.jamie9504.board.user.UserRepository;
+import com.github.jamie9504.board.user.jwt.JwtAuthenticationFilter;
+import com.github.jamie9504.board.user.jwt.JwtAuthorizationFilter;
+import com.github.jamie9504.board.user.repository.UserRepository;
+import com.github.jamie9504.board.user.service.UserPrincipalDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

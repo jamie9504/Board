@@ -1,4 +1,4 @@
-package com.github.jamie9504.board.common.exception;
+package com.github.jamie9504.board.user.exception;
 
 public class NonexistentUser extends IllegalArgumentException {
 

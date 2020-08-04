@@ -1,4 +1,4 @@
-package com.github.jamie9504.board.user;
+package com.github.jamie9504.board.user.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,11 +23,9 @@ public class UserPrincipal implements UserDetails {
             authorities.add(authority);
         }
 
-        // Extract list of roles (ROLE_name)
-        for (String role : this.user.getRoleList()) {
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
-            authorities.add(authority);
-        }
+        // Extract roles (ROLE_name)
+        GrantedAuthority authority = new SimpleGrantedAuthority(this.user.getRoleName());
+        authorities.add(authority);
 
         return authorities;
     }
