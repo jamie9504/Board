@@ -1,14 +1,24 @@
 package com.github.jamie9504.board.common;
 
 import java.time.LocalDateTime;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+@Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BaseEntity {
 
     @Id
@@ -19,38 +29,5 @@ public abstract class BaseEntity {
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime updatedAt;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    @Override
-    public String toString() {
-        return "BaseEntity{" +
-            "id=" + id +
-            ", createdAt=" + createdAt +
-            ", updatedAt=" + updatedAt +
-            '}';
-    }
+    private LocalDateTime modifiedAt;
 }

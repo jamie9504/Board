@@ -1,43 +1,55 @@
 package com.github.jamie9504.board.user;
 
 import com.github.jamie9504.board.common.BaseEntity;
-import com.github.jamie9504.board.role.Role;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 public class User extends BaseEntity {
 
-    @Column(nullable = false, unique = true, length = 50)
+    private static final String SPLIT_DELIMITER = ",";
+
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false)
+    private String nickname;
+
+    @Column(nullable = false)
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "ROLE_ID")
-    private Role role;
+    private int used;
 
-    protected User() {
+    private String roles = "";
+
+    private String permissions = "";
+
+    public List<String> getRoleList() {
+        return getSplitList(this.roles);
     }
 
-    public User(String email, String password, Role role) {
-        this.email = email;
-        this.password = password;
-        this.role = role;
+    public List<String> getPermissionList() {
+        return getSplitList(this.permissions);
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Role getRole() {
-        return role;
+    private List<String> getSplitList(String value) {
+        if (value.length() > 0) {
+            return Arrays.asList(value.split(SPLIT_DELIMITER));
+        }
+        return new ArrayList<>();
     }
 }
