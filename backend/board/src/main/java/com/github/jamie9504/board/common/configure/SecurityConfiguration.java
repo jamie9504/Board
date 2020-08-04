@@ -62,7 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .and()
             .logout()
             .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/signin")
+            .logoutSuccessUrl("/login")
             .and()
             .rememberMe()
             .tokenValiditySeconds(2592000)
