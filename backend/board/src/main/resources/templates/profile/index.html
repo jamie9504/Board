@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments.html :: headerfiles"></head>
 <body>
 <header th:insert="fragments.html :: nav"></header>
 <!-- Page content goes here -->
 <div class="container">
     <p>This is User Profile\Index. Only authenticated people can see this</p>
+    <table>
+        <tr>
+            <td>email</td>
+            <td><span sec:authentication="name"></span></td>
+        </tr>
+        <tr>
+            <td>nickname</td>
+            <td><span sec:authentication="principal.nickname"></span></td>
+        </tr>
+        <tr>
+            <td>Authorities</td>
+            <td><span sec:authentication="principal.authorities"></span></td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>
