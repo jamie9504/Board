@@ -4,9 +4,13 @@ import com.github.jamie9504.board.user.payload.UserRequest;
 
 public class UserConstants {
 
-    public static final String TEST_USER_EMAIL = "test-user@test.com";
-    public static final String TEST_USER_NICKNAME = "test-user";
-    public static final String TEST_USER_PASSWORD = "test-user-password";
+    public static final String TEST_ADMIN_EMAIL = "test-admin@test.com";
+    public static final String TEST_ADMIN_NICKNAME = "test-admin";
+    public static final String TEST_ADMIN_PASSWORD = "test-admin-password";
+
+    public static final String TEST_MEMBER_EMAIL = "test-member@test.com";
+    public static final String TEST_MEMBER_NICKNAME = "test-member";
+    public static final String TEST_MEMBER_PASSWORD = "test-member-password";
 
     public static final String TEST_GUEST_EMAIL = "test-guest@test.com";
     public static final String TEST_GUEST_NICKNAME = "test-guest";

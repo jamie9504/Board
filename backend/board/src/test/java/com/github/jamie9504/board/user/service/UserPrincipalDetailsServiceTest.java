@@ -2,9 +2,9 @@ package com.github.jamie9504.board.user.service;
 
 import static com.github.jamie9504.board.user.UserConstants.TEST_GUEST_NICKNAME;
 import static com.github.jamie9504.board.user.UserConstants.TEST_GUEST_PASSWORD;
-import static com.github.jamie9504.board.user.UserConstants.TEST_USER_EMAIL;
-import static com.github.jamie9504.board.user.UserConstants.TEST_USER_NICKNAME;
-import static com.github.jamie9504.board.user.UserConstants.TEST_USER_PASSWORD;
+import static com.github.jamie9504.board.user.UserConstants.TEST_MEMBER_EMAIL;
+import static com.github.jamie9504.board.user.UserConstants.TEST_MEMBER_NICKNAME;
+import static com.github.jamie9504.board.user.UserConstants.TEST_MEMBER_PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -30,7 +30,8 @@ class UserPrincipalDetailsServiceTest {
 
     @BeforeEach
     void setUp() {
-        testUserRequest = new UserRequest(TEST_USER_EMAIL, TEST_USER_NICKNAME, TEST_USER_PASSWORD);
+        testUserRequest = new UserRequest(TEST_MEMBER_EMAIL, TEST_MEMBER_NICKNAME,
+            TEST_MEMBER_PASSWORD);
     }
 
     @DisplayName("사용자 생성")
@@ -50,7 +51,7 @@ class UserPrincipalDetailsServiceTest {
     void createUser_SameEmail_ThrownException() {
         userPrincipalDetailsService.createUser(testUserRequest);
         UserRequest userRequest
-            = new UserRequest(TEST_USER_EMAIL, TEST_GUEST_NICKNAME, TEST_GUEST_PASSWORD);
+            = new UserRequest(TEST_MEMBER_EMAIL, TEST_GUEST_NICKNAME, TEST_GUEST_PASSWORD);
 
         assertThatThrownBy(() -> userPrincipalDetailsService.createUser(userRequest));
     }
@@ -71,7 +72,7 @@ class UserPrincipalDetailsServiceTest {
     @DisplayName("사용자 불러오기 - 이메일이 없는 경우, 예외")
     @Test
     void loadUserByUsername_hasNotEmail_ThrownException() {
-        assertThatThrownBy(() -> userPrincipalDetailsService.loadUserByUsername(TEST_USER_EMAIL))
+        assertThatThrownBy(() -> userPrincipalDetailsService.loadUserByUsername(TEST_MEMBER_EMAIL))
             .isInstanceOf(NonexistentUser.class);
     }
 }
