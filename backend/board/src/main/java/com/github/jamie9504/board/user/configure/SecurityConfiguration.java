@@ -60,6 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userRepository))
             .authorizeRequests()
             // configure access rules
+            .antMatchers("/admin/sign-up").permitAll()
             .antMatchers("/index.html").permitAll()
             .antMatchers("/profile/**").authenticated()
             .antMatchers("/admin/**").hasRole("ADMIN")
@@ -69,7 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/public/users").hasRole("ADMIN")
             .and()
             .formLogin()
-            .loginProcessingUrl("/signin")  // default /login
+            .loginProcessingUrl("/sign-in")  // default /login
             .loginPage("/login").permitAll()
             .usernameParameter("email")     // default username
             .passwordParameter("password")  // default password
