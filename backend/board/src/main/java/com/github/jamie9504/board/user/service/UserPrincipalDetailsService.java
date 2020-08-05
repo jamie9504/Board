@@ -80,9 +80,18 @@ public class UserPrincipalDetailsService implements UserDetailsService {
         String encodedPassword = encodingPassword(userForAdminRequest.getPassword());
         userForAdminRequest.setPassword(encodedPassword);
 
-        User user = userRepository.findById(id)
-            .orElseThrow(() -> new NonexistentUser("유저가 없습니다."));
-
+        User user = getUser(id);
         user.update(userForAdminRequest.toUser());
+    }
+
+    private User getUser(Long id) {
+        return userRepository.findById(id)
+            .orElseThrow(() -> new NonexistentUser("유저가 없습니다."));
+    }
+
+    @Transactional
+    public void deleteForAdmin(Long id) {
+        User user = getUser(id);
+        userRepository.delete(user);
     }
 }

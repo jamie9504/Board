@@ -83,6 +83,8 @@ public class AdminUserController {
 
     @DeleteMapping(USER_URL_PATH + "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userPrincipalDetailsService.deleteForAdmin(id);
+
         AdminUserResponse adminUserResponse = adminUserResponses.remove(id);
         adminUserResponses.put(id, AdminUserResponse.builder()
             .id(id)
