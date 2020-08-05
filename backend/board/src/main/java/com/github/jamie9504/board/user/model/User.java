@@ -61,12 +61,19 @@ public class User extends BaseEntity {
         if (Objects.nonNull(user.password)) {
             this.password = user.password;
         }
-        if (Objects.nonNull(user.permissions)) {
-            this.permissions = user.permissions;
-        }
         if (Objects.nonNull(user.role)) {
             this.role = user.role;
         }
+        if (Objects.nonNull(user.permissions)) {
+            this.permissions = user.permissions;
+        }
+        if (Objects.nonNull(user.state)) {
+            this.state = user.state;
+        }
+    }
+
+    public boolean isNotSameEmail(String email) {
+        return !this.email.equals(email);
     }
 
     public List<String> getPermissionList() {

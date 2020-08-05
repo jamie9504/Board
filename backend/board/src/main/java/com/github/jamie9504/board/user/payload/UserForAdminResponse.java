@@ -3,6 +3,7 @@ package com.github.jamie9504.board.user.payload;
 import com.github.jamie9504.board.user.model.User;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,7 @@ import lombok.ToString;
 @Getter
 @EqualsAndHashCode
 @ToString
-public class AdminUserResponse {
+public class UserForAdminResponse {
 
     private Long id;
     private String email;
@@ -28,8 +29,8 @@ public class AdminUserResponse {
     private LocalDateTime createdAt;
     private LocalDateTime lastModifiedAt;
 
-    public static AdminUserResponse of(User user) {
-        return AdminUserResponse.builder()
+    public static UserForAdminResponse of(User user) {
+        return UserForAdminResponse.builder()
             .id(user.getId())
             .email(user.getEmail())
             .nickname(user.getNickname())
@@ -39,5 +40,11 @@ public class AdminUserResponse {
             .createdAt(user.getCreatedAt())
             .lastModifiedAt(user.getModifiedAt())
             .build();
+    }
+
+    public static List<UserForAdminResponse> listOf(List<User> users) {
+        return users.stream()
+            .map(UserForAdminResponse::of)
+            .collect(Collectors.toList());
     }
 }

@@ -2,6 +2,7 @@ package com.github.jamie9504.board.user.payload;
 
 import com.github.jamie9504.board.user.model.User;
 import com.github.jamie9504.board.user.model.UserRole;
+import com.github.jamie9504.board.user.model.UserState;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,12 @@ public class UserForAdminRequest {
     private String password;
     private String role;
 
+    @Builder.Default
+    private String state = UserState.REGISTERED.name();
+
+    @Builder.Default
+    private String permissions = "";
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -36,8 +43,9 @@ public class UserForAdminRequest {
             .email(email)
             .nickname(nickname)
             .password(password)
-            .role(UserRole.ADMIN)
-            .used(1)
+            .role(UserRole.valueOf(role))
+            .state(UserState.valueOf(state))
+            .permissions(permissions)
             .build();
     }
 }

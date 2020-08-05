@@ -10,10 +10,11 @@ import static com.github.jamie9504.board.user.UserConstants.TEST_MEMBER_EMAIL;
 import static com.github.jamie9504.board.user.UserConstants.TEST_MEMBER_NICKNAME;
 import static com.github.jamie9504.board.user.UserConstants.TEST_MEMBER_PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.github.jamie9504.board.user.model.UserRole;
 import com.github.jamie9504.board.user.model.UserState;
-import com.github.jamie9504.board.user.payload.AdminUserResponse;
+import com.github.jamie9504.board.user.payload.UserForAdminResponse;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -41,10 +42,10 @@ public class UserAcceptanceTest extends BaseAcceptanceTest {
         String adminToken = login(TEST_ADMIN_EMAIL, TEST_ADMIN_PASSWORD);
 
         String location = createUser(adminToken, TEST_MEMBER_EMAIL, TEST_MEMBER_NICKNAME,
-            TEST_MEMBER_PASSWORD, UserRole.MEMBER.name());
+            TEST_MEMBER_PASSWORD, UserRole.MEMBER);
 
-        AdminUserResponse userResponseForAdmin
-            = findWithToken(adminToken, location, AdminUserResponse.class);
+        UserForAdminResponse userResponseForAdmin
+            = findWithToken(adminToken, location, UserForAdminResponse.class);
         assertThat(userResponseForAdmin.getId()).isNotNull();
         assertThat(userResponseForAdmin.getEmail()).isEqualTo(TEST_MEMBER_EMAIL);
         assertThat(userResponseForAdmin.getNickname()).isEqualTo(TEST_MEMBER_NICKNAME);
@@ -63,12 +64,7 @@ public class UserAcceptanceTest extends BaseAcceptanceTest {
 
         deleteUser(adminToken, location);
 
-        userResponseForAdmin = findUser(adminToken, location);
-        assertThat(userResponseForAdmin.getId()).isNotNull();
-        assertThat(userResponseForAdmin.getEmail()).isEqualTo(TEST_GUEST_EMAIL);
-        assertThat(userResponseForAdmin.getNickname()).isEqualTo(TEST_GUEST_NICKNAME);
-        assertThat(userResponseForAdmin.getRole()).isEqualTo(UserRole.GUEST.name());
-        assertThat(userResponseForAdmin.getState()).isEqualTo(UserState.DELETED.name());
+        assertThatThrownBy(() -> findUser(adminToken, location));
     }
 
     private void createAdmin() {
@@ -81,12 +77,12 @@ public class UserAcceptanceTest extends BaseAcceptanceTest {
     }
 
     private String createUser(String adminToken, String email, String nickname, String password,
-        String roleName) {
+        UserRole roleName) {
         Map<String, String> params = new HashMap<>();
         params.put("email", email);
         params.put("nickname", nickname);
         params.put("password", password);
-        params.put("role", roleName);
+        params.put("role", roleName.name());
 
         return createWithToken(adminToken, params, "/admin/users/");
     }
@@ -106,7 +102,7 @@ public class UserAcceptanceTest extends BaseAcceptanceTest {
         deleteWithToken(adminToken, location);
     }
 
-    private AdminUserResponse findUser(String adminToken, String location) {
-        return findWithToken(adminToken, location, AdminUserResponse.class);
+    private UserForAdminResponse findUser(String adminToken, String location) {
+        return findWithToken(adminToken, location, UserForAdminResponse.class);
     }
 }

@@ -5,11 +5,12 @@ import com.github.jamie9504.board.user.exception.NonexistentUser;
 import com.github.jamie9504.board.user.model.User;
 import com.github.jamie9504.board.user.model.UserPrincipal;
 import com.github.jamie9504.board.user.model.UserRole;
-import com.github.jamie9504.board.user.payload.AdminUserResponse;
 import com.github.jamie9504.board.user.payload.UserForAdminRequest;
+import com.github.jamie9504.board.user.payload.UserForAdminResponse;
 import com.github.jamie9504.board.user.payload.UserRequest;
 import com.github.jamie9504.board.user.payload.UserResponse;
 import com.github.jamie9504.board.user.repository.UserRepository;
+import java.util.List;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,31 +28,35 @@ public class UserPrincipalDetailsService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Transactional
-    public AdminUserResponse createAdmin(UserForAdminRequest userForAdminRequest) {
+    public UserForAdminResponse createAdmin(UserForAdminRequest userForAdminRequest) {
         String encodedPassword = encodingPassword(userForAdminRequest.getPassword());
         userForAdminRequest.setPassword(encodedPassword);
         userForAdminRequest.setRole(UserRole.ADMIN.name());
 
         User user = saveUser(userForAdminRequest.toUser());
-        return AdminUserResponse.of(user);
+        return UserForAdminResponse.of(user);
     }
 
     private User saveUser(User user) {
-        userRepository.findByEmail(user.getEmail())
-            .ifPresent(findUser -> {
-                throw new AlreadyExistsEntityException("기존 사용자가 있습니다.");
-            });
+        validateExistsUser(user.getEmail());
 
         return userRepository.save(user);
     }
 
+    private void validateExistsUser(String email) {
+        userRepository.findByEmail(email)
+            .ifPresent(findUser -> {
+                throw new AlreadyExistsEntityException("기존 사용자가 있습니다.");
+            });
+    }
+
     @Transactional
-    public AdminUserResponse createUserForAdmin(UserForAdminRequest userForAdminRequest) {
+    public UserForAdminResponse createUserForAdmin(UserForAdminRequest userForAdminRequest) {
         String encodedPassword = encodingPassword(userForAdminRequest.getPassword());
         userForAdminRequest.setPassword(encodedPassword);
 
         User user = saveUser(userForAdminRequest.toUser());
-        return AdminUserResponse.of(user);
+        return UserForAdminResponse.of(user);
     }
 
     @Transactional
@@ -77,11 +82,20 @@ public class UserPrincipalDetailsService implements UserDetailsService {
 
     @Transactional
     public void updateUserForAdmin(Long id, UserForAdminRequest userForAdminRequest) {
+        User user = getUser(id);
+        validateTargetEmailNotExists(userForAdminRequest, user);
+
         String encodedPassword = encodingPassword(userForAdminRequest.getPassword());
         userForAdminRequest.setPassword(encodedPassword);
 
-        User user = getUser(id);
         user.update(userForAdminRequest.toUser());
+    }
+
+    private void validateTargetEmailNotExists(UserForAdminRequest userForAdminRequest, User user) {
+        String email = userForAdminRequest.getEmail();
+        if (user.isNotSameEmail(email)) {
+            validateExistsUser(email);
+        }
     }
 
     private User getUser(Long id) {
@@ -93,5 +107,15 @@ public class UserPrincipalDetailsService implements UserDetailsService {
     public void deleteForAdmin(Long id) {
         User user = getUser(id);
         userRepository.delete(user);
+    }
+
+    public UserForAdminResponse findUserForAdmin(Long id) {
+        User user = getUser(id);
+        return UserForAdminResponse.of(user);
+    }
+
+    public List<UserForAdminResponse> findAllUserForAdmin() {
+        List<User> users = userRepository.findAll();
+        return UserForAdminResponse.listOf(users);
     }
 }
