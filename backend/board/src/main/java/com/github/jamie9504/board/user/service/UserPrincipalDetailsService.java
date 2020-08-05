@@ -74,4 +74,15 @@ public class UserPrincipalDetailsService implements UserDetailsService {
 
         return new UserPrincipal(user);
     }
+
+    @Transactional
+    public void updateUserForAdmin(Long id, UserForAdminRequest userForAdminRequest) {
+        String encodedPassword = encodingPassword(userForAdminRequest.getPassword());
+        userForAdminRequest.setPassword(encodedPassword);
+
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new NonexistentUser("유저가 없습니다."));
+
+        user.update(userForAdminRequest.toUser());
+    }
 }

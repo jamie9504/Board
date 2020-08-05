@@ -47,7 +47,9 @@ public class AdminUserController {
     public ResponseEntity<Void> createUser(@RequestBody UserForAdminRequest userForAdminRequest) {
         AdminUserResponse user = userPrincipalDetailsService
             .createUserForAdmin(userForAdminRequest);
-        Long id = adminUserResponses.size() + 1L;
+        Long id = user.getId();
+
+        id = adminUserResponses.size() + 1L;
         adminUserResponses.put(id, AdminUserResponse.builder()
             .id(id)
             .nickname(userForAdminRequest.getNickname())
@@ -62,8 +64,10 @@ public class AdminUserController {
     }
 
     @PutMapping(USER_URL_PATH + "/{id}")
-    public ResponseEntity<AdminUserResponse> updateUser(@PathVariable Long id,
+    public ResponseEntity<Void> updateUser(@PathVariable Long id,
         @RequestBody UserForAdminRequest userForAdminRequest) {
+        userPrincipalDetailsService.updateUserForAdmin(id, userForAdminRequest);
+
         adminUserResponses.put(id, AdminUserResponse.builder()
             .id(id)
             .nickname(userForAdminRequest.getNickname())
@@ -74,8 +78,7 @@ public class AdminUserController {
             .lastModifiedAt(LocalDateTime.now())
             .build());
 
-        AdminUserResponse adminUserResponse = adminUserResponses.get(id);
-        return ResponseEntity.ok().body(adminUserResponse);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(USER_URL_PATH + "/{id}")

@@ -67,7 +67,7 @@ class UserPrincipalDetailsServiceTest {
             .isInstanceOf(AlreadyExistsEntityException.class);
     }
 
-    @DisplayName("사용자 생성")
+    @DisplayName("관리자가 사용자 생성")
     @Test
     void createUserForAdmin_Success() {
         AdminUserResponse admin = userPrincipalDetailsService.createUserForAdmin(
@@ -81,7 +81,7 @@ class UserPrincipalDetailsServiceTest {
         assertThat(admin.getState()).isEqualTo(UserState.REGISTERED.name());
     }
 
-    @DisplayName("사용자 생성 - 예외 발생, 동일한 이메일")
+    @DisplayName("관리자가 사용자 생성 - 예외 발생, 동일한 이메일")
     @Test
     void createUserForAdmin_SameEmail_ThrownException() {
         userPrincipalDetailsService.createAdmin(TEST_ADMIN_USER_FOR_ADMIN_REQUEST);
