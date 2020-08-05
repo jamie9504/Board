@@ -3,8 +3,8 @@ package com.github.jamie9504.board.user.controller;
 import static com.github.jamie9504.board.user.controller.AdminUserController.ADMIN_URL_PATH;
 
 import com.github.jamie9504.board.user.model.UserState;
-import com.github.jamie9504.board.user.payload.AdminUserRequest;
 import com.github.jamie9504.board.user.payload.AdminUserResponse;
+import com.github.jamie9504.board.user.payload.UserForAdminRequest;
 import com.github.jamie9504.board.user.service.UserPrincipalDetailsService;
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -36,21 +36,23 @@ public class AdminUserController {
     private final Map<Long, AdminUserResponse> adminUserResponses = new HashMap<>();
 
     @PostMapping(SIGN_UP_URL_PATH)
-    public ResponseEntity<Void> createAdmin(@RequestBody AdminUserRequest adminUserRequest) {
-        AdminUserResponse admin = userPrincipalDetailsService.createAdmin(adminUserRequest);
+    public ResponseEntity<Void> createAdmin(@RequestBody UserForAdminRequest userForAdminRequest) {
+        AdminUserResponse admin = userPrincipalDetailsService.createAdmin(userForAdminRequest);
         String location = ADMIN_USER_URL_PATH + "/" + admin.getId();
 
         return ResponseEntity.created(URI.create(location)).build();
     }
 
     @PostMapping(USER_URL_PATH)
-    public ResponseEntity<Void> createUser(@RequestBody AdminUserRequest adminUserRequest) {
+    public ResponseEntity<Void> createUser(@RequestBody UserForAdminRequest userForAdminRequest) {
+        AdminUserResponse user = userPrincipalDetailsService
+            .createUserForAdmin(userForAdminRequest);
         Long id = adminUserResponses.size() + 1L;
         adminUserResponses.put(id, AdminUserResponse.builder()
             .id(id)
-            .nickname(adminUserRequest.getNickname())
-            .email(adminUserRequest.getEmail())
-            .role(adminUserRequest.getRole())
+            .nickname(userForAdminRequest.getNickname())
+            .email(userForAdminRequest.getEmail())
+            .role(userForAdminRequest.getRole())
             .state(UserState.REGISTERED.name())
             .createdAt(LocalDateTime.now())
             .lastModifiedAt(LocalDateTime.now())
@@ -61,12 +63,12 @@ public class AdminUserController {
 
     @PutMapping(USER_URL_PATH + "/{id}")
     public ResponseEntity<AdminUserResponse> updateUser(@PathVariable Long id,
-        @RequestBody AdminUserRequest adminUserRequest) {
+        @RequestBody UserForAdminRequest userForAdminRequest) {
         adminUserResponses.put(id, AdminUserResponse.builder()
             .id(id)
-            .nickname(adminUserRequest.getNickname())
-            .email(adminUserRequest.getEmail())
-            .role(adminUserRequest.getRole())
+            .nickname(userForAdminRequest.getNickname())
+            .email(userForAdminRequest.getEmail())
+            .role(userForAdminRequest.getRole())
             .state(UserState.REGISTERED.name())
             .createdAt(LocalDateTime.now())
             .lastModifiedAt(LocalDateTime.now())

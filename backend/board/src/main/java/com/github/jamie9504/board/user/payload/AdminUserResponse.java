@@ -2,6 +2,7 @@ package com.github.jamie9504.board.user.payload;
 
 import com.github.jamie9504.board.user.model.User;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,7 @@ public class AdminUserResponse {
     private String email;
     private String nickname;
     private String role;
+    private List<String> permissions;
     private String state;
     private LocalDateTime createdAt;
     private LocalDateTime lastModifiedAt;
@@ -32,7 +34,8 @@ public class AdminUserResponse {
             .email(user.getEmail())
             .nickname(user.getNickname())
             .role(user.getRoleName())
-            .state("")
+            .permissions(user.getPermissionList())
+            .state(user.getStateName())
             .createdAt(user.getCreatedAt())
             .lastModifiedAt(user.getModifiedAt())
             .build();

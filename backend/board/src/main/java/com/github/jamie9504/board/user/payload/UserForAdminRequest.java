@@ -16,7 +16,7 @@ import lombok.ToString;
 @Getter
 @EqualsAndHashCode
 @ToString
-public class AdminUserRequest {
+public class UserForAdminRequest {
 
     private String email;
     private String nickname;
@@ -25,6 +25,10 @@ public class AdminUserRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public User toUser() {

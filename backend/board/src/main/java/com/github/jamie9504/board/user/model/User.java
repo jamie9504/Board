@@ -36,7 +36,8 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    private int used;
+    @Builder.Default
+    private int used = 1;
 
     @Enumerated(value = EnumType.STRING)
     @Builder.Default
@@ -44,6 +45,10 @@ public class User extends BaseEntity {
 
     @Builder.Default
     private String permissions = "";
+
+    @Enumerated(value = EnumType.STRING)
+    @Builder.Default
+    private UserState state = UserState.REGISTERED;
 
     public List<String> getPermissionList() {
         return getSplitList(this.permissions);
@@ -56,7 +61,15 @@ public class User extends BaseEntity {
         return new ArrayList<>();
     }
 
-    public String getRoleName() {
+    public String getRoleNameWithPrefix() {
         return this.role.getName();
+    }
+
+    public String getRoleName() {
+        return this.role.name();
+    }
+
+    public String getStateName() {
+        return this.state.name();
     }
 }

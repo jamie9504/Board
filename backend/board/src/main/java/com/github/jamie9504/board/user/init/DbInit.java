@@ -30,14 +30,38 @@ public class DbInit implements CommandLineRunner {
     }
 
     private List<User> createUsers() {
-        User admin = new User("admin@email.com", "어드민", passwordEncoder.encode("admin"), 1,
-            UserRole.ADMIN, "ACCESS1,ACCESS2");
-        User manager = new User("manager@email.com", "매니저", passwordEncoder.encode("manager"), 1,
-            UserRole.MANAGER, "ACCESS1");
-        User member = new User("member@email.com", "멤버", passwordEncoder.encode("member"), 1,
-            UserRole.MEMBER, "");
-        User guest = new User("guest@email.com", "게스트", passwordEncoder.encode("guest"), 1,
-            UserRole.GUEST, "");
-        return Arrays.asList(admin, manager, guest);
+        User admin = User.builder()
+            .email("admin@email.com")
+            .nickname("어드민")
+            .password(passwordEncoder.encode("admin"))
+            .role(UserRole.ADMIN)
+            .permissions("ACCESS1,ACCESS2")
+            .build();
+
+        User manager = User.builder()
+            .email("manager@email.com")
+            .nickname("매니저")
+            .password(passwordEncoder.encode("manager"))
+            .role(UserRole.MANAGER)
+            .permissions("ACCESS1")
+            .build();
+
+        User member = User.builder()
+            .email("member@email.com")
+            .nickname("멤버")
+            .password(passwordEncoder.encode("member"))
+            .role(UserRole.MEMBER)
+            .permissions("")
+            .build();
+
+        User guest = User.builder()
+            .email("guest@email.com")
+            .nickname("게스트")
+            .password(passwordEncoder.encode("guest"))
+            .role(UserRole.GUEST)
+            .permissions("")
+            .build();
+
+        return Arrays.asList(admin, manager, member, guest);
     }
 }

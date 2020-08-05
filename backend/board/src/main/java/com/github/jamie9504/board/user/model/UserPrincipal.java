@@ -24,7 +24,7 @@ public class UserPrincipal implements UserDetails {
         }
 
         // Extract roles (ROLE_name)
-        GrantedAuthority authority = new SimpleGrantedAuthority(this.user.getRoleName());
+        GrantedAuthority authority = new SimpleGrantedAuthority(this.user.getRoleNameWithPrefix());
         authorities.add(authority);
 
         return authorities;
