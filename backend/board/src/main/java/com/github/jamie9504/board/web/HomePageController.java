@@ -20,9 +20,4 @@ public class HomePageController {
         log.info("=========> index 진입 =======>");
         return "index";
     }
-
-    @GetMapping("login")
-    public String getLogin() {
-        return "login";
-    }
 }
